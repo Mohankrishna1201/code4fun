@@ -1,0 +1,22 @@
+.iframe-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+iframe {
+  width: 100%;
+  height: 413px;
+  border: none; /* Remove default iframe border */
+}
+
+.progress-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 4px; /* Adjust as needed */
+  background-color: #262626ff ; /* Example color */
+  /* Add any other styling for the progress bar */
+}

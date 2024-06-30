@@ -24,9 +24,13 @@ function App() {
   const { isLoggedIn, currentUser } = useFirebase();
   const firebase = useFirebase();
   useEffect(() => {
-    firebase.getUserToken()
 
+    firebase.getUserToken()
     if (isLoggedIn && currentUser) {
+      firebase.sendToBackend();
+      firebase.getSavedToken();
+      firebase.handleToken();
+
       setPhotoURL(currentUser.photoURL);
       setDName(currentUser.displayName);
     } else {

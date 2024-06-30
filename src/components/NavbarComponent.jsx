@@ -33,7 +33,7 @@ export default function NavbarComponent({ photo, dname }) {
         setLoading(true);
 
         if (isLoggedIn && currentUser) {
-
+            firebase.sendToBackend();
 
             setNavigation([
                 { name: 'CodeForces', href: '/codeforces', current: false },

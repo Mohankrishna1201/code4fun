@@ -47,15 +47,14 @@ export default function Contests() {
                     },
                     body: JSON.stringify({ time: timeInSeconds, host }),
                 });
-if(response === `[]`){
-    setDisplay("No contests are there or please check the URL");
-}
-                if (response.ok) {
-                    setDisplay('Reminder set successfully!');
-                    
-                } else {
-                    setDisplay('Failed to set reminder.');
-                }
+                  const responseData = await response.json();
+ if (Array.isArray(responseData) && responseData.length === 0) {
+            setDisplay("No contests are there or please check the URL");
+        } else if (response.ok) {
+            setDisplay('Reminder set successfully!');
+        } else {
+            setDisplay('Failed to set reminder.');
+        }
             } catch (error) {
                 console.error('Error sending reminder', error);
                 setDisplay('Error sending reminder.');

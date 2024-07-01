@@ -31,15 +31,13 @@ export default function NavbarComponent({ photo, dname }) {
     });
 
     useEffect(() => {
-        if (isLoggedIn && currentUser) {
-            firebase.sendToBackend();
-        }
-    }, [isLoggedIn, currentUser])
+
+    })
     useEffect(() => {
         setLoading(true);
 
         if (isLoggedIn && currentUser) {
-
+            firebase.sendToBackend();
 
             setNavigation([
                 { name: 'CodeForces', href: '/codeforces', current: false },

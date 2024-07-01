@@ -61,11 +61,11 @@ function App() {
   };
 
 
-  useEffect(() => {
-    if (isLoggedIn && currentUser) {
-      firebase.sendToBackend();
-    }
-  }, [isLoggedIn, currentUser])
+  // useEffect(() => {
+  //   if (isLoggedIn && currentUser) {
+  //     firebase.sendToBackend();
+  //   }
+  // }, [isLoggedIn, currentUser])
 
   return (
     <div>

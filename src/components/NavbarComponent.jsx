@@ -34,7 +34,7 @@ export default function NavbarComponent({ photo, dname }) {
         if (isLoggedIn && currentUser) {
             firebase.sendToBackend();
         }
-    }, [])
+    }, [isLoggedIn, currentUser])
     useEffect(() => {
         setLoading(true);
 

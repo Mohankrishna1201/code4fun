@@ -213,7 +213,7 @@ export const FirebaseProvider = ({ children }) => {
                     body: JSON.stringify(DataOfUserTokens),
                 });
                 const result = await response.text();
-                console.log('Response from backend:', result);
+                console.log('sent to Mongodb final check:', result);
             } catch (error) {
                 console.error('Error sending data to backend:', error);
             }

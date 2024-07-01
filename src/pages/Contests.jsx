@@ -47,9 +47,12 @@ export default function Contests() {
                     },
                     body: JSON.stringify({ time: timeInSeconds, host }),
                 });
-
+if(response === `[]`){
+    setDisplay("No contests are there or please check the URL");
+}
                 if (response.ok) {
                     setDisplay('Reminder set successfully!');
+                    
                 } else {
                     setDisplay('Failed to set reminder.');
                 }

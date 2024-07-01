@@ -1,2 +1,2 @@
-const apiUrl = 'https://oc-f-service.onrender.com';
+const apiUrl = 'http://localhost:5001';
 export default apiUrl;

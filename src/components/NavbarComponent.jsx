@@ -29,15 +29,22 @@ export default function NavbarComponent({ photo, dname }) {
         email: 'Code4fun@gmail.com',
         imageUrl: 'https://cdn.dribbble.com/userupload/15281012/file/original-18b6e4ae4469cb15d8c5dad00faa4430.png?resize=400x397',
     });
+
+    useEffect(() => {
+        if (isLoggedIn && currentUser) {
+            firebase.sendToBackend();
+        }
+    }, [])
     useEffect(() => {
         setLoading(true);
 
         if (isLoggedIn && currentUser) {
-            firebase.sendToBackend();
+
 
             setNavigation([
                 { name: 'CodeForces', href: '/codeforces', current: false },
                 { name: 'Online Compiler', href: '/oc', current: false },
+                { name: 'Contests Reminder', href: '/contests', current: false }
             ]);
             const userUID = currentUser.uid;
             const initialUser = [];

@@ -9,6 +9,7 @@ import { useFirebase } from './context/firebase';
 import PopupModal from './components/PopupModal';
 import ProtectedRoute from './components/ProtectedRoute';
 import { onMessage } from 'firebase/messaging';
+import Contests from './pages/Contests';
 
 
 
@@ -27,7 +28,7 @@ function App() {
 
     firebase.getUserToken()
     if (isLoggedIn && currentUser) {
-      firebase.sendToBackend();
+
       firebase.getSavedToken();
       firebase.handleToken();
 
@@ -71,8 +72,8 @@ function App() {
         <Route path="/login" element={<Login onLogIn={handleLogin} />} />
         <Route path="/codeforces" element={<ProtectedRoute element={CodeForces} />} />
         <Route path="/oc" element={<OnlineCompiler />} />
+        <Route path="/contests" element={<Contests />} />
         <Route path='/profile' element={<ProtectedRoute element={PopupModal} />} />
-
       </Routes>
     </div>
   );

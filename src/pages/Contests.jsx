@@ -90,12 +90,13 @@ export default function Contests({ notifications, setNotifications }) {
                 <h1 className="pt-10 font-bold text-2xl sm:text-3xl md:text-4xl text-[#fefefe] text-center">
                     <span className="text-[#2FB9B3]">Contest</span> Notification Reminder
                 </h1>
-                <p className="pt-5 text-lg sm:text-xl md:text-2xl text-[#fefefe] text-center font-semibold">
+                <p className=" pl-2 pr-2 pt-5 text-lg sm:text-xl md:text-2xl text-[#fefefe] text-center font-semibold">
                     Enter <span className="text-[#2FB9B3]">Platform URL</span> and the <span className="text-[#2FB9B3]">time in minutes</span> before you want a reminder about the contest
                 </p>
 
             </div>
             <TokenDisplay token={token} setToken={setToken} />
+            <p className=" pl-2 pr-2 pt-5 text-lg sm:text-xl md:text-2xl text-[#fefefe] text-center font-semibold">Our Bot <span className="text-[#2FB9B3]">Timely</span> is here to solve your queries and for setting reminders. You can checkout this on bottom right corner of our website</p>
             <NotificationPanel notifications={notifications} />
             <div className="container mx-auto p-4 text-[#fefefe]">
                 <h1 className="text-2xl font-bold mb-4 text-[#2FB9B3]">Upcoming Contests</h1>

@@ -20,3 +20,21 @@ iframe {
   background-color: #262626ff ; /* Example color */
   /* Add any other styling for the progress bar */
 }
+
+
+/* App.css */
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #ffffff;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

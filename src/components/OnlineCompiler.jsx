@@ -2,6 +2,7 @@ import '../App.css';
 import { useState } from 'react';
 import axios from 'axios';
 import apiUrl from '../context/apiConfig';
+import Loader from './Loader';
 
 function OnlineCompiler() {
     const [code, setCode] = useState('');
@@ -9,8 +10,10 @@ function OnlineCompiler() {
     const [output, setOutput] = useState('');
     const [error, setError] = useState('');
     const [language, setLanguage] = useState('cpp');
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async () => {
+        setLoading(true);
         const payload = {
             language,
             code,
@@ -24,15 +27,16 @@ function OnlineCompiler() {
             const errorResponse = err.response?.data?.error || { error: 'Unknown error', stderr: '' };
             setError(`Error: ${errorResponse.error}\nStderr: ${errorResponse.stderr}`);
             setOutput(''); // Clear previous output if any
+        } finally {
+            setLoading(false);
         }
     };
-
 
     return (
         <div className="p-6 w-full mx-auto bg-[#333333ff] text-gray-200 rounded-xl shadow-md space-y-4">
             <h1 className="text-2xl font-bold text-white">Mohan Online Code Compiler</h1>
 
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 items-center">
                 <select className="w-1/3 p-2 bg-[#262626ff] text-gray-200 border border-[#333333ff] rounded-md" onChange={(e) => setLanguage(e.target.value)}>
                     <option value='cpp'>C++</option>
                     <option value='c'>C</option>
@@ -42,9 +46,10 @@ function OnlineCompiler() {
                 </select>
                 <button
                     onClick={handleSubmit}
-                    className="p-2 bg-[#2FB9B3] text-white rounded-md hover:bg-[#36a7a1]"
+                    className="p-2 bg-[#2FB9B3] text-white rounded-md hover:bg-[#36a7a1] flex items-center"
                 >
                     Run
+                    {loading && <div className="spinner ml-2"></div>}
                 </button>
             </div>
 

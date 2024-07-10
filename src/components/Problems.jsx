@@ -7,12 +7,14 @@ const ProblemStatementFetcher = () => {
     const [problemStatement, setProblemStatement] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [question, setQuestion] = useState('A'); // Default to 'A' or any initial value
+    const [loading, setLoading] = useState(false); // Loading state
 
     const handleSelectChange = (e) => {
         setQuestion(e.target.value); // Update state with the selected option value
     };
 
     const handleFetchProblemStatement = async () => {
+        setLoading(true); // Set loading to true
         try {
             // Extract last 4 digits from the URL
             const lastFourDigits = getLastFourDigits(url);
@@ -32,6 +34,8 @@ const ProblemStatementFetcher = () => {
             setProblemStatement('');
             setErrorMessage('Error fetching problem statement');
             console.error('Error fetching problem statement:', error.message);
+        } finally {
+            setLoading(false); // Set loading to false
         }
     };
 
@@ -69,8 +73,9 @@ const ProblemStatementFetcher = () => {
                 <option value='D'>D</option>
                 <option value='E'>E</option>
             </select>
-            <button className=" ml-6 p-2  bg-[#2FB9B3] text-white rounded-md hover:bg-[#36a7a1]" onClick={handleFetchProblemStatement}>
+            <button className="ml-1 p-2 bg-[#2FB9B3] text-white rounded-md hover:bg-[#36a7a1] flex items-center" onClick={handleFetchProblemStatement}>
                 Fetch Problem Statement
+                {loading && <div className="spinner ml-2"></div>}
             </button>
 
             {errorMessage && <p>{errorMessage}</p>}

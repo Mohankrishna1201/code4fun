@@ -10,6 +10,8 @@ import PopupModal from './components/PopupModal';
 import ProtectedRoute from './components/ProtectedRoute';
 import { onMessage } from 'firebase/messaging';
 import Contests from './pages/Contests';
+import RandomComponent from './components/Random';
+import NotificationPanel from './components/NotificationPanel';
 
 
 
@@ -28,7 +30,7 @@ function App() {
 
     firebase.getUserToken()
     if (isLoggedIn && currentUser) {
-
+      firebase.getUserDetails()
       firebase.getSavedToken();
       firebase.handleToken();
 
@@ -66,7 +68,7 @@ function App() {
   //     firebase.sendToBackend();
   //   }
   // }, [isLoggedIn, currentUser])
-
+  const [notifications, setNotifications] = useState([]);
   return (
     <div>
 
@@ -76,7 +78,9 @@ function App() {
         <Route path="/login" element={<Login onLogIn={handleLogin} />} />
         <Route path="/codeforces" element={<ProtectedRoute element={CodeForces} />} />
         <Route path="/oc" element={<OnlineCompiler />} />
-        <Route path="/contests" element={<Contests />} />
+        <Route path="/contests" element={<Contests notifications={notifications} setNotifications={setNotifications} />} />
+        <Route path="/no" element={<NotificationPanel notifications={notifications} />} />
+        <Route path="random" element={<RandomComponent />} />
         <Route path='/profile' element={<ProtectedRoute element={PopupModal} />} />
       </Routes>
     </div>

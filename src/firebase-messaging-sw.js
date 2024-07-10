@@ -30,3 +30,5 @@ messaging.onBackgroundMessage((payload) => {
 
     self.ServiceWorkerRegistration.notification(notificationTitle, notificationOptions)
 });
+
+

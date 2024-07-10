@@ -118,35 +118,21 @@ export const FirebaseProvider = ({ children }) => {
 
 
     const getUserToken = async () => {
-        try {
-            const permission = await Notification.requestPermission();
-            console.log(permission);
-            if (permission === 'granted') {
-                const token = await getToken(messaging, { vapidKey: "BLJG6vjnPiQPk9or_IZ_65xU9yEoQL5X8zE3xv1kjIr50Zfjmufx4O3tbKWyNmqJQwA6YmC2ZReDss-tXSjyhTs" });
-                console.log(token);
 
-                // Send the token to your backend
-                if (token) {
-                    await fetch(`${apiUrl}/save-token`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ token }),
-                    });
+        const permission = await Notification.requestPermission();
+        console.log(permission);
+        if (permission === 'granted') {
+            const token = await getToken(messaging, { vapidKey: "BLJG6vjnPiQPk9or_IZ_65xU9yEoQL5X8zE3xv1kjIr50Zfjmufx4O3tbKWyNmqJQwA6YmC2ZReDss-tXSjyhTs" });
+            console.log(token);
 
-                    console.log('Token sent to backend:', token);
-                    return token;
-                } else {
-                    console.log('No registration token available. Request permission to generate one.');
-                    return null;
-                }
+            // Send the token to your backen
+            if (token) {
+
+                return token;
             }
-        } catch (error) {
-            console.error('Error retrieving token:', error);
-            return null;
         }
     };
+
     const handleToken = async () => {
         if (!currentUser) {
             console.error('Current user is null. Please register to get a token.');
@@ -156,7 +142,7 @@ export const FirebaseProvider = ({ children }) => {
         const token = await getUserToken();
         if (!token) {
             console.error('Failed to retrieve token. Token is null or undefined.');
-            return;
+
         }
 
         const userTokenDocRef = doc(firestore, `tokens/${currentUser.uid}`);
@@ -166,10 +152,12 @@ export const FirebaseProvider = ({ children }) => {
                 userID: currentUser.uid,
             }, { merge: true });
 
-            console.log('Token successfully saved for the user.');
+            console.log('Token successfully saved for the user.', token);
+
         } catch (error) {
             console.error('Error saving token:', error);
         }
+        return token;
     };
     const DataOfUserTokens = [];
 
@@ -229,8 +217,28 @@ export const FirebaseProvider = ({ children }) => {
     const getImageUrl = (path) => {
         return getDownloadURL(ref(storage, path));
     }
+
+    const getUserDetails = async () => {
+        if (!currentUser) {
+            console.error('Current user is null.');
+            return null;
+        }
+
+        const token = await getUserToken();
+        if (!token) {
+            console.error('Failed to retrieve token.');
+            return null;
+        }
+        console.log('check here', token, currentUser.email)
+        return {
+            userID: currentUser.uid,
+            userToken: token,
+            userEmail: currentUser.email,
+        };
+    };
+
     return (
-        <FirebaseContext.Provider value={{ UserSignUpwithEmailandPassword, UserLoginwithEmailandPassword, UserLoginGoogle, UserLoginFacebook, isLoggedIn, UserLogout, currentUser, handleUpdateProfile, getUser, getImageUrl, handleComment, handleReply, getComments, getUserToken, messaging, handleToken, getSavedToken, sendToBackend }}>
+        <FirebaseContext.Provider value={{ UserSignUpwithEmailandPassword, UserLoginwithEmailandPassword, UserLoginGoogle, UserLoginFacebook, isLoggedIn, UserLogout, currentUser, handleUpdateProfile, getUser, getImageUrl, handleComment, handleReply, getComments, getUserToken, messaging, handleToken, getSavedToken, sendToBackend, getUserDetails }}>
             {children}
         </FirebaseContext.Provider>
     );

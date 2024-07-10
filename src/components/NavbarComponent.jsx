@@ -121,11 +121,12 @@ export default function NavbarComponent({ photo, dname }) {
                             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                                 <div className="flex h-16 items-center justify-between">
                                     <div className="flex items-center">
-                                        <div className="flex-shrink-0">
+                                        <div className="flex-shrink-0" >
                                             <img
                                                 className="h-12 w-[fit-content]"
                                                 src="https://cdn.dribbble.com/userupload/15279276/file/original-0a23bb91b957055e3c02660a504d1785.png?resize=752x295"
                                                 alt="Your Company"
+
                                             />
                                         </div>
                                         <div className="hidden md:block">

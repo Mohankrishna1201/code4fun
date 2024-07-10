@@ -12,6 +12,7 @@ import { onMessage } from 'firebase/messaging';
 import Contests from './pages/Contests';
 import RandomComponent from './components/Random';
 import NotificationPanel from './components/NotificationPanel';
+import VisitCounter from './components/VisitCounter';
 
 
 
@@ -70,7 +71,7 @@ function App() {
   // }, [isLoggedIn, currentUser])
   const [notifications, setNotifications] = useState([]);
   return (
-    <div>
+    <div >
 
       <NavbarComponent photo={photoURL} dname={dname} />
       <Routes>
@@ -83,6 +84,7 @@ function App() {
         <Route path="random" element={<RandomComponent />} />
         <Route path='/profile' element={<ProtectedRoute element={PopupModal} />} />
       </Routes>
+      <VisitCounter />
     </div>
   );
 }

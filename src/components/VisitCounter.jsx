@@ -1,9 +1,9 @@
-
-
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import apiUrl from '../context/apiConfig';
+
+
+
 
 const VisitCounter = () => {
     const [visitCount, setVisitCount] = useState(0);
@@ -11,7 +11,7 @@ const VisitCounter = () => {
     useEffect(() => {
         const fetchVisitCount = async () => {
             try {
-                const response = await axios.get(`${apiUrl}/visit-count`);
+                const response = await axios.get(`${apiUrl}/visits`);
                 setVisitCount(response.data.count);
             } catch (error) {
                 console.error('Error fetching visit count:', error);
@@ -29,3 +29,8 @@ const VisitCounter = () => {
 };
 
 export default VisitCounter;
+
+
+
+
+

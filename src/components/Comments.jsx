@@ -6,13 +6,9 @@ export default function Comments() {
     const [newComment, setNewComment] = useState('');
     const [replyText, setReplyText] = useState('');
     const [replyTo, setReplyTo] = useState(null);
-    const { isLoggedIn, currentUser, getUser, getImageUrl, handleComment, handleReply, getComments } = useFirebase();
+    const { isLoggedIn, currentUser, getUser, getImageUrl, handleComment, handleReply, getComments, deleteComment, handleDeleteCommentF } = useFirebase();
     const [profileUrl, setProfileUrl] = useState('');
-    const [user, setUser] = useState({
-        name: 'code4fun',
-        email: 'Code4fun@gmail.com',
-        imageUrl: 'https://cdn.dribbble.com/userupload/15281012/file/original-18b6e4ae4469cb15d8c5dad00faa4430.png?resize=400x397',
-    });
+    const [user, setUser] = useState('');
 
     useEffect(() => {
         const fetchComments = async () => {
@@ -21,7 +17,7 @@ export default function Comments() {
         };
 
         fetchComments();
-    }, []);
+    }, [getComments]);
 
     const handleCommentChange = (e) => {
         setNewComment(e.target.value);
@@ -39,6 +35,7 @@ export default function Comments() {
                 year: 'numeric', month: 'short', day: 'numeric'
             }),
             text: newComment,
+            userId: currentUser.uid,
             replies: []
         };
 
@@ -62,7 +59,8 @@ export default function Comments() {
             date: new Date().toLocaleDateString('en-US', {
                 year: 'numeric', month: 'short', day: 'numeric'
             }),
-            text: replyText
+            text: replyText,
+            userId: currentUser.uid
         };
 
         await handleReply(commentId, newReply);
@@ -82,37 +80,48 @@ export default function Comments() {
         setReplyTo(replyTo === commentId ? null : commentId);
     };
 
-    useEffect(() => {
+    const handleDeleteComment = async (commentId, comment) => {
+        handleDeleteCommentF(commentId)
+        setComments(comments.filter(comment => comment.id !== commentId));
+    };
+
+    const handleDeleteReply = async (commentId, replyId) => {
+        const updatedComments = comments.map(comment => {
+            if (comment.id === commentId) {
+                const updatedReplies = comment.replies.filter(reply => reply.id !== replyId);
+                return { ...comment, replies: updatedReplies };
+            }
+            return comment;
+        });
+        setComments(updatedComments);
+    };
+
+    const fetchUserDetails = async () => {
         if (isLoggedIn && currentUser) {
             const userUID = currentUser.uid;
-            const initialUser = [];
+            const userSnapshot = await getUser();
+            const users = userSnapshot.docs;
 
-            getUser().then((users) => {
-                const BigParent = users.docs;
+            for (let snapshot of users) {
+                const userData = snapshot.data();
 
-                for (let snapshot of BigParent) {
-                    const user = snapshot.data();
-
-                    if (user.userID === userUID) {
-                        initialUser.push(user);
-                        break;
-                    }
-                }
-
-                if (initialUser.length > 0) {
-                    getImageUrl(initialUser[0].coverPic).then(url => setProfileUrl(url));
-
+                if (userData.userID === userUID) {
+                    const imageUrl = await getImageUrl(userData.coverPic);
                     setUser({
-                        name: initialUser[0].userName,
-                        email: initialUser[0].userEmail,
-                        imageUrl: `${profileUrl}`,
+                        name: userData.userName,
+                        email: userData.userEmail,
+                        imageUrl
                     });
-                } else {
-                    console.log('User not found');
+                    setProfileUrl(imageUrl);
+                    break;
                 }
-            });
+            }
         }
-    }, [isLoggedIn, currentUser, getUser]);
+    };
+
+    useEffect(() => {
+        fetchUserDetails();
+    }, [isLoggedIn, currentUser, getUser, getImageUrl]);
 
     return (
         <div className="bg-[#1c1c1c] py-8 lg:py-16 antialiased">
@@ -145,6 +154,7 @@ export default function Comments() {
                                             <time dateTime={comment.date} title={comment.date}>{comment.date}</time>
                                         </p>
                                     </div>
+
                                 </footer>
                                 <p className="text-gray-500 dark:text-gray-400">{comment.text}</p>
                                 <div className="flex items-center mt-4 space-x-4">
@@ -158,9 +168,18 @@ export default function Comments() {
                                         </svg>
                                         Reply
                                     </button>
+                                    {currentUser.uid === comment.userId && (
+                                        <button type="button" onClick={() => handleDeleteComment(comment.id, comment)}
+                                            className="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400">
+                                            <svg aria-hidden="true" className="mr-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 7m5-3h4m-7 3h10M10 11v6m4-6v6"></path>
+                                            </svg>
+                                            Delete
+                                        </button>
+                                    )}
+
                                 </div>
                                 {replyTo === comment.id && (
-
                                     <form onSubmit={(e) => handleReplySubmit(e, comment.id)} className="mt-4">
                                         <div className=" p-2 mb-4 rounded-lg rounded-t-lg bg-[#262626ff]">
                                             <label htmlFor="reply" className="sr-only">Your reply</label>
@@ -173,7 +192,6 @@ export default function Comments() {
                                             </button>
                                         </div>
                                     </form>
-
                                 )}
                                 {comment.replies.length > 0 && (
                                     <div className="mt-4 space-y-4">
@@ -194,6 +212,12 @@ export default function Comments() {
                                                             </time>
                                                         </p>
                                                     </div>
+                                                    {currentUser.uid === reply.userId && (
+                                                        <button onClick={() => handleDeleteReply(comment.id, reply.id)}
+                                                            className="text-sm text-red-500 hover:underline dark:text-red-400">
+                                                            Delete
+                                                        </button>
+                                                    )}
                                                 </footer>
                                                 <p className="text-gray-500 dark:text-gray-400">{reply.text}</p>
                                             </article>

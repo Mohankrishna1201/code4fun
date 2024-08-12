@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { createContext, useContext, useState, useEffect } from "react";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, } from 'firebase/auth'
 import { FacebookAuthProvider, signOut } from "firebase/auth";
-import { getFirestore, collection, addDoc, doc, setDoc, getDocs, query, where, updateDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, doc, setDoc, getDocs, query, where, updateDoc, deleteDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { getMessaging, getToken } from "firebase/messaging";
 import apiUrl from "./apiConfig";
@@ -90,6 +90,28 @@ export const FirebaseProvider = ({ children }) => {
         }
         const commentsCollectionRef = collection(firestore, 'comments');
         await addDoc(commentsCollectionRef, comment);
+    };
+
+
+
+    const handleDeleteCommentF = async (commentId) => {
+        if (!currentUser) {
+            console.error('Current user is null.');
+            return;
+        }
+
+        if (!commentId) {
+            console.error('Comment ID is required.');
+            return;
+        }
+
+        const commentDocRef = doc(firestore, 'comments', commentId);
+        try {
+            await deleteDoc(commentDocRef);
+            console.log('Comment deleted successfully12');
+        } catch (error) {
+            console.error('Error deleting comment: ', error);
+        }
     };
 
     const handleReply = async (commentId, reply) => {
@@ -238,7 +260,7 @@ export const FirebaseProvider = ({ children }) => {
     };
 
     return (
-        <FirebaseContext.Provider value={{ UserSignUpwithEmailandPassword, UserLoginwithEmailandPassword, UserLoginGoogle, UserLoginFacebook, isLoggedIn, UserLogout, currentUser, handleUpdateProfile, getUser, getImageUrl, handleComment, handleReply, getComments, getUserToken, messaging, handleToken, getSavedToken, sendToBackend, getUserDetails }}>
+        <FirebaseContext.Provider value={{ UserSignUpwithEmailandPassword, UserLoginwithEmailandPassword, UserLoginGoogle, UserLoginFacebook, isLoggedIn, UserLogout, currentUser, handleUpdateProfile, getUser, getImageUrl, handleComment, handleReply, getComments, getUserToken, messaging, handleToken, getSavedToken, sendToBackend, getUserDetails, handleDeleteCommentF }}>
             {children}
         </FirebaseContext.Provider>
     );

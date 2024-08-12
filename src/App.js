@@ -12,7 +12,7 @@ import { onMessage } from 'firebase/messaging';
 import Contests from './pages/Contests';
 import RandomComponent from './components/Random';
 import NotificationPanel from './components/NotificationPanel';
-import VisitCounter from './components/VisitCounter';
+import VisitCounter from './components/Visits';
 
 
 

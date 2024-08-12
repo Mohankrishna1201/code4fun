@@ -69,7 +69,7 @@ export default function Contests({ notifications, setNotifications }) {
         if (host && timeInSeconds) {
             try {
 
-                const res = await axios.post(`${apiUrl}/reminder`, { time: timeInSeconds, host, token: userToken });
+                const res = await axios.post(`${apiUrl}/set-reminder`, { time: timeInSeconds, host, token: userToken });
                 setResponse(res.data);
 
                 if (res.data) {

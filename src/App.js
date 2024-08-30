@@ -13,6 +13,7 @@ import Contests from './pages/Contests';
 import RandomComponent from './components/Random';
 import NotificationPanel from './components/NotificationPanel';
 import VisitCounter from './components/Visits';
+import NewContests from './pages/NewContests';
 
 
 
@@ -79,7 +80,7 @@ function App() {
         <Route path="/login" element={<Login onLogIn={handleLogin} />} />
         <Route path="/codeforces" element={<ProtectedRoute element={CodeForces} />} />
         <Route path="/oc" element={<OnlineCompiler />} />
-        <Route path="/contests" element={<Contests notifications={notifications} setNotifications={setNotifications} />} />
+        <Route path="/contests" element={<NewContests notifications={notifications} setNotifications={setNotifications} />} />
         <Route path="/no" element={<NotificationPanel notifications={notifications} />} />
         <Route path="random" element={<RandomComponent />} />
         <Route path='/profile' element={<ProtectedRoute element={PopupModal} />} />

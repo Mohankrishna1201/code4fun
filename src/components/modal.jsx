@@ -92,6 +92,7 @@ const TimeModal = ({ isOpen, onClose, onSubmit, apiResponse }) => {
                     <AiOutlineCheckCircle size={50} className="text-green-500 mb-4" />
                     <h2 className="text-lg font-semibold mb-4">Success</h2>
                     <p className="text-gray-700 mb-4">{apiResponse?.message}</p>
+                    <p>The timings mentioned above are in Coordinated Universal Time. You will receive a reminder at your desired time.</p>
                     <button
                         onClick={onClose}
                         className="bg-green-500 text-white px-4 py-2 rounded-md"

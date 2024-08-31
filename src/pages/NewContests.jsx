@@ -99,13 +99,13 @@ export default function NewContests({ notifications, setNotifications }) {
                     <span className="text-[#2FB9B3]">Contest</span> Notification Reminder
                 </h1>
                 <p className="pl-2 pr-2 pt-5 text-lg sm:text-xl md:text-2xl text-[#fefefe] text-center font-semibold">
-                    Enter <span className="text-[#2FB9B3]">Platform URL</span> and the <span className="text-[#2FB9B3]">time</span> before you want a reminder about the contest
+                    Click on <span className="text-[#2FB9B3]">Set Reminder</span> and enter <span className="text-[#2FB9B3]">time</span> before you want a reminder about the contest
                 </p>
             </div>
 
-            <TokenDisplay token={token} setToken={setToken} />
+            {/* <TokenDisplay token={token} setToken={setToken} /> */}
             <p className="pl-2 pr-2 pt-5 text-lg sm:text-xl md:text-2xl text-[#fefefe] text-center font-semibold">
-                Our Bot <span className="text-[#2FB9B3]">Timely</span> is here to solve your queries. You can check this on the bottom right corner of our website.
+                Our Bot <span className="text-[#2FB9B3]">Timely</span> is here to solve your queries using <span className="text-[#2FB9B3]">Gemini</span> You can check this on the bottom right corner of our website.
             </p>
             <p className="pl-2 pr-2 pt-5 text-lg sm:text-xl md:text-2xl text-[#fefefe] text-center font-semibold">
                 After setting your reminder, you will receive<span className="text-[#2FB9B3]"> a notification and an email regarding the contest</span>

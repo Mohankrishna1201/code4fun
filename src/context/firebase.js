@@ -6,6 +6,7 @@ import { getFirestore, collection, addDoc, doc, setDoc, getDocs, query, where, u
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { getMessaging, getToken } from "firebase/messaging";
 import apiUrl from "./apiConfig";
+import { sendPasswordResetEmail } from "firebase/auth";
 const FirebaseContext = createContext(null);
 
 const firebaseConfig = {
@@ -57,6 +58,9 @@ export const FirebaseProvider = ({ children }) => {
         return signInWithPopup(firebaseAuth, Googleprovider);
 
     }
+    const sendPasswordReset = (email) => {
+        return sendPasswordResetEmail(firebaseAuth, email);
+    };
     const UserLoginFacebook = () => {
         return signInWithPopup(firebaseAuth, Facebookprovider);
 
@@ -260,7 +264,7 @@ export const FirebaseProvider = ({ children }) => {
     };
 
     return (
-        <FirebaseContext.Provider value={{ UserSignUpwithEmailandPassword, UserLoginwithEmailandPassword, UserLoginGoogle, UserLoginFacebook, isLoggedIn, UserLogout, currentUser, handleUpdateProfile, getUser, getImageUrl, handleComment, handleReply, getComments, getUserToken, messaging, handleToken, getSavedToken, sendToBackend, getUserDetails, handleDeleteCommentF }}>
+        <FirebaseContext.Provider value={{ UserSignUpwithEmailandPassword, UserLoginwithEmailandPassword, UserLoginGoogle, UserLoginFacebook, isLoggedIn, UserLogout, currentUser, handleUpdateProfile, getUser, getImageUrl, handleComment, handleReply, getComments, getUserToken, messaging, handleToken, getSavedToken, sendToBackend, getUserDetails, handleDeleteCommentF, sendPasswordReset }}>
             {children}
         </FirebaseContext.Provider>
     );

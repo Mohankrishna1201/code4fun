@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useFirebase } from '../context/firebase';
-
+import { FcGoogle } from 'react-icons/fc';
 import { useNavigate } from 'react-router-dom';
 export default function SignUp({ onLogIn }) {
     const [email, setEmail] = useState('');
@@ -22,6 +22,7 @@ export default function SignUp({ onLogIn }) {
             alert(`Signed up with ${email}`);
         } catch (error) {
             console.log(error);
+            alert(error.message);
         }
     };
     const LoginGoogleFunction = async (e) => {
@@ -34,6 +35,12 @@ export default function SignUp({ onLogIn }) {
         } catch (error) {
             console.log(error);
 
+        }
+    };
+    const handlePasswordBlur = () => {
+        // Check if the password is less than 8 characters when the user finishes typing
+        if (password.length > 0 && password.length < 6) {
+            alert('Password must contain at least 6 characters');
         }
     };
     const LoginFacebookFunction = async (e) => {
@@ -112,6 +119,7 @@ export default function SignUp({ onLogIn }) {
                                     placeholder='Enter your password'
                                     value={password}
                                     onChange={handlePasswordChange}
+                                    onBlur={handlePasswordBlur}
                                 />
                             </div>
                         </div>
@@ -125,15 +133,23 @@ export default function SignUp({ onLogIn }) {
 
                             </button>
                         </div>
+                        <button
+                            type="button"
+                            onClick={LoginGoogleFunction}
+                            className="flex mt-4 w-full items-center justify-center rounded-md bg-[#252525]   hover:bg-[#3c3c3c]   px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
+                        >
+                            <FcGoogle className="mr-2 h-5 w-5" />
+                            Login with Google
+                        </button>
                     </form>
 
-                    <p className="mt-10 text-center text-sm text-gray-500">
+                    <p className="mt-2 text-center text-sm text-gray-500">
                         Already a member?{' '}
                         <a href="/login" className="font-semibold leading-6 text-[#2FB9B3] hover:text-[#46e6de]">
                             login
                         </a>
                     </p>
-                    <div className="w-full h-auto py-8 flex items-center justify-center gap-4 flex-wrap">
+                    {/* <div className="w-full h-auto py-8 flex items-center justify-center gap-4 flex-wrap">
                         <button onClick={LoginFacebookFunction} className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#252525]  shadow-md  group transition-all duration-300">
                             <svg className="transition-all duration-300 group-hover:scale-110"
                                 xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 72 72" fill="none">
@@ -153,7 +169,7 @@ export default function SignUp({ onLogIn }) {
                         <button className="w-10 h-10 flex items-center justify-center rounded-lg bg-[#252525]  shadow-md  group transition-all duration-300">
                             <svg className="transition-all duration-300 group-hover:scale-110" width="25" height="25" viewBox="0 0 20 20" fit="" preserveAspectRatio="xMidYMid meet" focusable="false"><path d="M20 3.924a8.212 8.212 0 01-2.357.646 4.111 4.111 0 001.804-2.27c-.792.47-1.67.812-2.605.996A4.103 4.103 0 009.85 7.038a11.645 11.645 0 01-8.458-4.287 4.118 4.118 0 00-.555 2.066 4.1 4.1 0 001.825 3.415 4.074 4.074 0 01-1.858-.513v.052a4.105 4.105 0 003.29 4.022 4.01 4.01 0 01-1.852.072 4.106 4.106 0 003.833 2.85A8.268 8.268 0 010 16.411a11.602 11.602 0 006.29 1.846c7.547 0 11.674-6.253 11.674-11.675 0-.18-.004-.355-.01-.53.8-.58 1.496-1.3 2.046-2.125" fill="#55ACEE" fill-rule="evenodd"></path></svg>
                         </button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 

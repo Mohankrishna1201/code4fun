@@ -136,7 +136,7 @@ export default function Comments() {
                                 placeholder="Write a comment..." required></textarea>
                         </div>
                         <button type="submit"
-                            className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+                            className="p-2 bg-[#2FB9B3] text-white rounded-md hover:bg-[#36a7a1] flex items-center">
                             Post comment
                         </button>
                     </form>
@@ -187,7 +187,7 @@ export default function Comments() {
                                                 className="p-5 w-full text-sm  border-0 focus:ring-0 focus:outline-none text-white placeholder-gray-400  bg-[#333333ff] rounded-md"
                                                 placeholder="Write a reply..." required></textarea>
                                             <button type="submit"
-                                                className="inline-flex items-center py-2.5 px-4 mt-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+                                                className=" p-2 bg-[#2FB9B3] text-white rounded-md hover:bg-[#36a7a1] flex items-center">
                                                 Post reply
                                             </button>
                                         </div>

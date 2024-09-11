@@ -29,7 +29,7 @@ export default function EditProfile({ onClose }) {
                             autoComplete="name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            className="block w-full px-3 py-2 border border-gray-300 rounded-md text-black shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             placeholder="Enter your name"
                         />
                         <label htmlFor="name" className=" mt-2 mb-2  block text-sm font-medium text-gray-700">

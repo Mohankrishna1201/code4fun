@@ -38,7 +38,7 @@ export const FirebaseProvider = ({ children }) => {
         onAuthStateChanged(firebaseAuth, (user) => {
             if (user) setUser(user);
             else setUser(null);
-            console.log(user);
+            // console.log(user);
         })
     }, []);
     const currentUser = user;
@@ -143,19 +143,23 @@ export const FirebaseProvider = ({ children }) => {
     };
 
 
-    const getUserToken = async () => {
+    let userNotificationStatus = null;
 
+    const getUserToken = async () => {
         const permission = await Notification.requestPermission();
         console.log(permission);
+
         if (permission === 'granted') {
-            const token = await getToken(messaging, { vapidKey: "BLJG6vjnPiQPk9or_IZ_65xU9yEoQL5X8zE3xv1kjIr50Zfjmufx4O3tbKWyNmqJQwA6YmC2ZReDss-tXSjyhTs" });
+            const token = await getToken(messaging, {
+                vapidKey: "BLJG6vjnPiQPk9or_IZ_65xU9yEoQL5X8zE3xv1kjIr50Zfjmufx4O3tbKWyNmqJQwA6YmC2ZReDss-tXSjyhTs"
+            });
             console.log(token);
 
-            // Send the token to your backen
             if (token) {
-
                 return token;
             }
+        } else {
+            userNotificationStatus = 'denied'; // Set variable value if permission is not granted
         }
     };
 
@@ -210,7 +214,7 @@ export const FirebaseProvider = ({ children }) => {
             }
 
             console.log('here!');
-            console.log(DataOfUserTokens);
+            // console.log(DataOfUserTokens);
         } catch (error) {
             console.error("Error getting tokens: ", error);
         }
@@ -244,6 +248,8 @@ export const FirebaseProvider = ({ children }) => {
         return getDownloadURL(ref(storage, path));
     }
 
+
+
     const getUserDetails = async () => {
         if (!currentUser) {
             console.error('Current user is null.');
@@ -251,8 +257,11 @@ export const FirebaseProvider = ({ children }) => {
         }
 
         const token = await getUserToken();
+
         if (!token) {
             console.error('Failed to retrieve token.');
+
+
             return null;
         }
         console.log('check here', token, currentUser.email)
@@ -264,7 +273,7 @@ export const FirebaseProvider = ({ children }) => {
     };
 
     return (
-        <FirebaseContext.Provider value={{ UserSignUpwithEmailandPassword, UserLoginwithEmailandPassword, UserLoginGoogle, UserLoginFacebook, isLoggedIn, UserLogout, currentUser, handleUpdateProfile, getUser, getImageUrl, handleComment, handleReply, getComments, getUserToken, messaging, handleToken, getSavedToken, sendToBackend, getUserDetails, handleDeleteCommentF, sendPasswordReset }}>
+        <FirebaseContext.Provider value={{ UserSignUpwithEmailandPassword, UserLoginwithEmailandPassword, UserLoginGoogle, UserLoginFacebook, isLoggedIn, UserLogout, currentUser, handleUpdateProfile, getUser, getImageUrl, handleComment, handleReply, getComments, getUserToken, messaging, handleToken, getSavedToken, sendToBackend, getUserDetails, handleDeleteCommentF, sendPasswordReset, userNotificationStatus }}>
             {children}
         </FirebaseContext.Provider>
     );

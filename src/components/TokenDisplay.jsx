@@ -11,7 +11,7 @@ const TokenDisplay = ({ token, setToken }) => {
                 const userDetails = await getUserToken();
                 if (userDetails) {
                     setToken(userDetails);
-                    console.log('Token fetched:', userDetails);
+                    // console.log('Token fetched:', userDetails);
                 } else {
                     console.log('No user is logged in.');
                 }

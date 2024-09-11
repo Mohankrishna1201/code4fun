@@ -3,15 +3,12 @@ import apiUrl from '../context/apiConfig';
 import format from 'date-fns/format';
 import { useFirebase } from '../context/firebase';
 import axios from 'axios';
-import NotificationPanel from '../components/NotificationPanel';
-import TokenDisplay from '../components/TokenDisplay';
 import TimeModal from '../components/modal';
-
 
 export default function NewContests({ notifications, setNotifications }) {
     const [contests, setContests] = useState([]);
-    const [response, setResponse] = useState(null);
-    const [token, setToken] = useState('');
+    const [response, setResponse] = useState(null);  // Response for API requests
+    const [token, setToken] = useState(null);        // User token for notifications
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedContest, setSelectedContest] = useState(null);
 
@@ -22,6 +19,7 @@ export default function NewContests({ notifications, setNotifications }) {
         return format(date, "yyyy-MM-dd HH:mm:ss");
     };
 
+    // Fetch upcoming contests
     useEffect(() => {
         const fetchContests = async () => {
             try {
@@ -41,12 +39,14 @@ export default function NewContests({ notifications, setNotifications }) {
         fetchContests();
     }, []);
 
+    // Update notifications when response changes
     useEffect(() => {
         if (response) {
             setNotifications((prevNotifications) => [...prevNotifications, response]);
         }
     }, [response, setNotifications]);
 
+    // Trigger notification (reminder)
     const triggerNotification = async ({ hours, minutes, seconds }) => {
         const userDetails = await firebase.getUserDetails();
 
@@ -56,6 +56,7 @@ export default function NewContests({ notifications, setNotifications }) {
         }
 
         const { userToken } = userDetails;
+        setToken(userToken);  // Set user token
         const timeInSeconds = (hours * 3600) + (minutes * 60) + seconds;
 
         try {
@@ -69,27 +70,29 @@ export default function NewContests({ notifications, setNotifications }) {
                 email: userDetails.userEmail
             });
 
+            // Handle the response from the API
             if (res.data.success) {
                 setResponse({ success: true, message: res.data.message });
             } else {
-                setResponse({ success: false, message: res.data.message });
+                setResponse({ success: false, message: res.data.message });  // Change to boolean false
             }
-
-            console.log(res.data.message);
         } catch (error) {
             console.error('Error sending reminder', error);
             setResponse({ success: false, message: 'Error sending reminder.' });
         }
     };
 
+    // Open the modal for a specific contest
     const handleOpenModal = (contest) => {
         setSelectedContest(contest);
         setIsModalOpen(true);
+        setResponse(null);  // Reset the response when modal opens
     };
 
+    // Close the modal and reset states
     const handleCloseModal = () => {
         setIsModalOpen(false);
-        setResponse(null);
+        setResponse(null);  // Reset response on modal close to avoid red popup
     };
 
     return (
@@ -102,17 +105,6 @@ export default function NewContests({ notifications, setNotifications }) {
                     Click on <span className="text-[#2FB9B3]">Set Reminder</span> and enter <span className="text-[#2FB9B3]">time</span> before you want a reminder about the contest
                 </p>
             </div>
-
-            {/* <TokenDisplay token={token} setToken={setToken} /> */}
-            <p className="pl-2 pr-2 pt-5 text-lg sm:text-xl md:text-2xl text-[#fefefe] text-center font-semibold">
-                Our Bot <span className="text-[#2FB9B3]">Timely</span> is here to solve your queries using <span className="text-[#2FB9B3]">Gemini</span> You can check this on the bottom right corner of our website.
-            </p>
-            <p className="pl-2 pr-2 pt-5 text-lg sm:text-xl md:text-2xl text-[#fefefe] text-center font-semibold">
-                After setting your reminder, you will receive<span className="text-[#2FB9B3]"> a notification and an email regarding the contest</span>
-            </p>
-
-
-
 
             <div className="container mx-auto p-4 text-[#fefefe]">
                 <h1 className="text-2xl font-bold mb-4 text-[#2FB9B3]">Upcoming Contests</h1>
@@ -159,11 +151,13 @@ export default function NewContests({ notifications, setNotifications }) {
                 </div>
             </div>
 
+            {/* Modal for setting reminder */}
             <TimeModal
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
                 onSubmit={triggerNotification}
                 apiResponse={response}
+                details={token}
             />
         </div>
     );

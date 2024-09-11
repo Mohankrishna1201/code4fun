@@ -4,7 +4,7 @@ import axios from 'axios';
 import apiUrl from '../context/apiConfig';
 import Loader from './Loader';
 import MonacoEditor from '@monaco-editor/react';
-
+import { FaPlay } from 'react-icons/fa';
 function OnlineCompiler() {
     const [code, setCode] = useState('// Write your code here');
     const [input, setInput] = useState('');
@@ -59,15 +59,16 @@ function OnlineCompiler() {
                 </select>
                 <button
                     onClick={handleSubmit}
-                    className="p-2 bg-[#2FB9B3] text-white rounded-md hover:bg-[#36a7a1] flex items-center"
+                    className="p-2 bg-[#2FB9B3] text-white rounded-md font-medium hover:bg-[#36a7a1] flex items-center"
                 >
+                    <FaPlay className="ml-1 mr-1" size={15} color="white" />
                     Run
                     {loading && <div className="spinner ml-2"></div>}
                 </button>
 
                 <button
                     onClick={toggleIDE}
-                    className="p-2 bg-[#2FB9B3] text-white rounded-md hover:bg-[#36a7a1]"
+                    className="p-2 text-xs font-medium bg-[#2FB9B3] text-white rounded-md hover:bg-[#36a7a1]"
                 >
                     {advancedIDE ? 'Switch to Basic Editor' : 'Switch to Advanced IDE'}
                 </button>

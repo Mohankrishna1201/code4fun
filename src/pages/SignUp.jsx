@@ -130,17 +130,16 @@ export default function SignUp({ onLogIn }) {
                                 className="flex w-full justify-center rounded-md bg-[#2FB9B3] hover:bg-[#46e6de] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                             >
                                 Signup
-
+                            </button>
+                            <button
+                                type="button"
+                                onClick={LoginGoogleFunction}
+                                className="flex mt-2 w-full items-center justify-center rounded-md bg-[#252525]   hover:bg-[#3c3c3c]   px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
+                            >
+                                <FcGoogle className="mr-2 h-5 w-5" />
+                                Login with Google
                             </button>
                         </div>
-                        <button
-                            type="button"
-                            onClick={LoginGoogleFunction}
-                            className="flex mt-4 w-full items-center justify-center rounded-md bg-[#252525]   hover:bg-[#3c3c3c]   px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
-                        >
-                            <FcGoogle className="mr-2 h-5 w-5" />
-                            Login with Google
-                        </button>
                     </form>
 
                     <p className="mt-2 text-center text-sm text-gray-500">

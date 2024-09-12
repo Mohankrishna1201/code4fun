@@ -22,7 +22,7 @@ export default function NavbarComponent({ photo, dname }) {
     const navigate = useNavigate();
 
     const { isLoggedIn, currentUser } = useFirebase();
-    const [navigation, setNavigation] = useState([]);
+    const [navigation, setNavigation] = useState([{ name: 'About Us', href: '/about', current: false }]);
     const [showProfileModal, setShowProfileModal] = useState(false);
     const [profileUrl, setProfileUrl] = useState('');
     const [loading, setLoading] = useState(true);
@@ -35,6 +35,7 @@ export default function NavbarComponent({ photo, dname }) {
             setNavigation([
                 { name: 'CodeForces', href: '/codeforces', current: false },
                 { name: 'Online Compiler', href: '/oc', current: false },
+                { name: 'About Us', href: '/about', current: false },
                 { name: 'Contests Reminder', href: '/contests', current: false },
             ]);
 

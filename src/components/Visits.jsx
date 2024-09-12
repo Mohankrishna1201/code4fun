@@ -22,7 +22,7 @@ const VisitCounter = () => {
     }, []);
 
     return (
-        <div className="fixed bottom-0 w-full text-center bg-[#333333ff] text-white py-2">
+        <div className=" bottom-0 w-full text-center bg-[#333333ff] text-white py-2">
             Number of visits: {visitCount}
         </div>
     );

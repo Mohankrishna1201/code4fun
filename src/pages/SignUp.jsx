@@ -102,11 +102,7 @@ export default function SignUp({ onLogIn }) {
                                 <label htmlFor="password" className="block text-sm font-medium leading-6 text-[#fefefe]">
                                     Password
                                 </label>
-                                <div className="text-sm">
-                                    <a href="#" className="font-semibold text-[#2FB9B3] hover:text-[#46e6de]">
-                                        Forgot password?
-                                    </a>
-                                </div>
+
                             </div>
                             <div className="mt-2">
                                 <input

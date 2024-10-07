@@ -6,48 +6,57 @@ const ProblemStatementFetcher = () => {
     const [url, setUrl] = useState('');
     const [problemStatement, setProblemStatement] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [question, setQuestion] = useState('A'); // Default to 'A' or any initial value
-    const [loading, setLoading] = useState(false); // Loading state
+    const [question, setQuestion] = useState('');
+    const [customValue, setCustomValue] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [showCustomInput, setShowCustomInput] = useState(false);
 
     const handleSelectChange = (e) => {
-        setQuestion(e.target.value); // Update state with the selected option value
+        const selectedValue = e.target.value;
+        setQuestion(selectedValue);
+
+        if (selectedValue === 'custom') {
+            setShowCustomInput(true);
+        } else {
+            setShowCustomInput(false);
+            setCustomValue(''); // Clear the custom value when a predefined option is selected
+        }
+    };
+
+    const handleCustomChange = (e) => {
+        const newValue = e.target.value;
+        setCustomValue(newValue);
+        setQuestion(newValue); // Update the select value to reflect the custom input
     };
 
     const handleFetchProblemStatement = async () => {
-        setLoading(true); // Set loading to true
+        setLoading(true);
         try {
-            // Extract last 4 digits from the URL
             const lastFourDigits = getLastFourDigits(url);
-
-            // Make GET request to your server endpoint using Axios
             const response = await axios.get(`${apiUrl}/get-problem-statement`, {
                 params: {
                     contestId: lastFourDigits,
                     question: question
                 }
             });
-
-            // Assuming your server returns HTML content in response
-            setProblemStatement(response.data); // Assuming response.data contains the HTML content
+            setProblemStatement(response.data);
             setErrorMessage('');
         } catch (error) {
             setProblemStatement('');
             setErrorMessage('Error fetching problem statement');
             console.error('Error fetching problem statement:', error.message);
         } finally {
-            setLoading(false); // Set loading to false
+            setLoading(false);
+            if (showCustomInput) {
+                setShowCustomInput(false);
+            }
         }
     };
 
     const getLastFourDigits = (url) => {
-        // Remove any trailing slashes from the URL
         url = url.replace(/\/$/, '');
-
-        // Get the last segment of the URL after the last slash
         const segments = url.split('/');
         const lastSegment = segments[segments.length - 1];
-
-        // Extract the last 4 digits from the last segment
         return lastSegment.slice(-4);
     };
 
@@ -64,16 +73,31 @@ const ProblemStatementFetcher = () => {
             <p>Select the Question</p>
             <select
                 className="w-1/3 p-2 bg-[#262626ff] text-gray-200 border border-[#333333ff] rounded-md"
-                value={question}
-                onChange={handleSelectChange} // Handle change on select
+                value={showCustomInput ? customValue : question}
+                onChange={handleSelectChange}
             >
-                <option value='A'>A</option>
-                <option value='B'>B</option>
-                <option value='C'>C</option>
-                <option value='D'>D</option>
-                <option value='E'>E</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+                <option value="E">E</option>
+                <option value="custom">Enter Custom Value</option>
             </select>
-            <button className="ml-1 p-2 bg-[#2FB9B3] text-white rounded-md hover:bg-[#36a7a1] flex items-center" onClick={handleFetchProblemStatement}>
+
+            {showCustomInput && (
+                <input
+                    type="text"
+                    className="w-1/3 p-2 mt-2 ml-3 bg-[#262626ff] text-gray-200 border border-[#333333ff] rounded-md"
+                    placeholder="Enter custom value (e.g., E5, E6)"
+                    value={customValue}
+                    onChange={handleCustomChange}
+                />
+            )}
+
+            <button
+                className="ml-1 p-2 bg-[#2FB9B3] text-white rounded-md hover:bg-[#36a7a1] flex items-center"
+                onClick={handleFetchProblemStatement}
+            >
                 Fetch Problem Statement
                 {loading && <div className="spinner ml-2"></div>}
             </button>
@@ -83,7 +107,6 @@ const ProblemStatementFetcher = () => {
             {problemStatement && (
                 <div className="iframe-container">
                     <iframe srcDoc={problemStatement}></iframe>
-                    {/* Use srcDoc instead of src for HTML content */}
                     <div className="progress-bar"></div>
                 </div>
             )}

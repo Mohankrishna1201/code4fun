@@ -1,6 +1,6 @@
 import React from "react";
 import Footer from "../components/Footer";
-
+import TestimonialWidget from '../components/TestimonialComponent'
 const AboutUs = () => {
     return (
         <>
@@ -159,6 +159,7 @@ const AboutUs = () => {
                 </div>
 
             </div>
+
             <Footer />
         </>
 

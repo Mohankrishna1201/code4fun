@@ -12,7 +12,7 @@ import { useState, useEffect } from "react";
 import { useFirebase } from "../context/firebase";
 import { useNavigate } from "react-router-dom";
 import EditProfile from "../pages/EditProfile";
-
+import TestimonialWidget from "./TestimonialComponent";
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
@@ -37,6 +37,7 @@ export default function NavbarComponent({ photo, dname }) {
                 { name: 'Online Compiler', href: '/oc', current: false },
                 { name: 'About Us', href: '/about', current: false },
                 { name: 'Contests Reminder', href: '/contests', current: false },
+
             ]);
 
             const userUID = currentUser.uid;
@@ -146,6 +147,7 @@ export default function NavbarComponent({ photo, dname }) {
                                                         {item.name}
                                                     </a>
                                                 ))}
+                                                <TestimonialWidget />
                                             </div>
                                         </div>
                                     </div>
@@ -186,6 +188,7 @@ export default function NavbarComponent({ photo, dname }) {
                                                                 )}
                                                             </MenuItem>
                                                         ))}
+
                                                         <button
                                                             className="px-4 py-2 text-sm text-gray-200 bg-transparent hover:bg-gray-800 rounded"
                                                             onClick={openProfileModal}
@@ -200,6 +203,7 @@ export default function NavbarComponent({ photo, dname }) {
                                                         </button>
                                                     </MenuItems>
                                                 </Menu>
+
                                             </div>
                                         </div>
                                     )}
@@ -232,6 +236,7 @@ export default function NavbarComponent({ photo, dname }) {
                                             {item.name}
                                         </DisclosureButton>
                                     ))}
+                                    <TestimonialWidget />
                                 </div>
                                 {isLoggedIn && currentUser && (
                                     <div className="border-t border-gray-700 pb-3 pt-4">

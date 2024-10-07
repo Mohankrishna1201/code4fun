@@ -6,7 +6,7 @@ const ProblemStatementFetcher = () => {
     const [url, setUrl] = useState('');
     const [problemStatement, setProblemStatement] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [question, setQuestion] = useState('');
+    const [question, setQuestion] = useState('A');
     const [customValue, setCustomValue] = useState('');
     const [loading, setLoading] = useState(false);
     const [showCustomInput, setShowCustomInput] = useState(false);

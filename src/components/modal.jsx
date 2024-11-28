@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { AiOutlineCheckCircle, AiOutlineLoading3Quarters, AiOutlineCloseCircle } from "react-icons/ai";
 
-const TimeModal = ({ isOpen, onClose, onSubmit, apiResponse, details }) => {
+const TimeModal = ({ isOpen, onClose, onSubmit, apiResponse, details, test, testApi }) => {
     const [hours, setHours] = useState(0);
     const [minutes, setMinutes] = useState(0);
     const [seconds, setSeconds] = useState(0);
     const [showSuccess, setShowSuccess] = useState(false);
     const [showError, setShowError] = useState(false);
+
     const [load, setLoad] = useState(false);
+    const [text, setText] = useState('');
 
     const handleSubmit = () => {
         setLoad(true);
@@ -26,7 +28,18 @@ const TimeModal = ({ isOpen, onClose, onSubmit, apiResponse, details }) => {
                 setShowError(true);
             }
         }
+
+
     }, [apiResponse]);
+    useEffect(() => {
+        console.log('API Response:', testApi); // Add this log to inspect the response
+        if (testApi) {
+            setText(testApi);
+
+        }
+
+
+    }, [text]);
 
     const handleClose = () => {
         onClose();
@@ -60,6 +73,7 @@ const TimeModal = ({ isOpen, onClose, onSubmit, apiResponse, details }) => {
                                     <br />
                                     (The time must not be zero.)
                                 </h2>
+
                             </div>
 
                             <div className="flex space-x-4 mb-4">
@@ -115,16 +129,23 @@ const TimeModal = ({ isOpen, onClose, onSubmit, apiResponse, details }) => {
 
                             <div className="flex justify-end space-x-2">
                                 <button
-                                    onClick={handleClose}
-                                    className="bg-gray-500 text-white px-4 py-2 rounded-md"
+                                    onClick={test}
+                                    className=" text-[#2FB9B3] px-4 py-2 rounded-md"
                                 >
-                                    Cancel
+                                    Test Reminder
                                 </button>
+
                                 <button
                                     onClick={handleSubmit}
                                     className="bg-[#2FB9B3] text-white px-4 py-2 rounded-md"
                                 >
                                     Set Reminder
+                                </button>
+                                <button
+                                    onClick={handleClose}
+                                    className="bg-gray-500 text-white px-4 py-2 rounded-md"
+                                >
+                                    Cancel
                                 </button>
                             </div>
                         </>

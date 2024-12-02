@@ -53,7 +53,7 @@ function OnlineCompiler() {
                 >
                     <option value='cpp'>C++</option>
                     <option value='c'>C</option>
-                    <option value='java'>Java</option>
+
                     <option value='js'>JavaScript</option>
                     <option value='py'>Python</option>
                 </select>
